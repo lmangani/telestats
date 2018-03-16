@@ -5,21 +5,24 @@ const bucket_emitter = require('./bulk-emitter');
 const mysql = require('./db.js');
 
 var query;
-var config = require('./config').getConfig();
+var config;
 
-log('%start:green Initializing Bulk bucket...');
-bucket = bucket_emitter.create(config.queue||{});
-bucket.on('data', function(data) {
-  // Bulk ready to emit!
-  if (config.debug) log('%data:cyan BULK Out [%s:blue]', JSON.stringify(data) );
-  /// DO INSERT
-  mysql.query(sql, [data], function(err) {
-    if (err) throw err;
-    conn.end();
-  });
-}).on('error', function(err) {
-  log('%error:red %s', err.toString() )
-});
+init = function(config){
+	log('%start:green Initializing Bulk bucket...');
+	bucket = bucket_emitter.create(config.queue||{});
+	bucket.on('data', function(data) {
+	  // Bulk ready to emit!
+	  if (config.debug) log('%data:cyan BULK Out [%s:blue]', JSON.stringify(data) );
+	  /// DO INSERT
+//	  mysql.query(mysql, [data], function(err) {
+//	    if (err) throw err;
+//	    conn.end();
+//	  });
+
+	}).on('error', function(err) {
+	  log('%error:red %s', err.toString() )
+	});
+}
 
 var self = module.exports = {
 
@@ -29,6 +32,8 @@ var self = module.exports = {
 
 	select: function(inject_config){
 		config = inject_config;
+		if (config.debug) log('CONFIG: %s',config);
+		init(config);
 		query  = "INSERT INTO ("+config.mysql.query_columns+") VALUES ?";
 		self[config.socket](inject_config);
 	},
