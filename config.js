@@ -7,9 +7,9 @@
     "query_columns": "from_date, to_date, type, total",
     "dbOpts": {
         "host": "localhost",
-        "user": "user",
-        "password": "password",
-        "database": "db_name"
+        "user": "homer_user",
+        "password": "homer_password",
+        "database": "stats_data"
     },
     "table": "table_name",
     "maxRows": 1000
