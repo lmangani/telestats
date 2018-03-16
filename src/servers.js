@@ -42,7 +42,7 @@ var self = module.exports = {
 	  server.on('connection', (socket) => {
 	    log('%connect:green (%s:italic:dim %d:italic:gray)', socket.remoteAddress, socket.remotePort)
 
-	    socket.on('data', (data) => bucket.push(data))
+	    socket.on('data', (data) => bucket.push(data.toString()))
 	    socket.on('error', (err) => log('%error:red (%s:italic:dim %d:italic:gray) %s', socket.remoteAddress, socket.remotePort, err.toString()))
 	    socket.on('end', () => log('%disconnect:red️ (%s:italic:dim %d:italic:gray)', socket.remoteAddress, socket.remotePort))
 	  })
@@ -57,7 +57,7 @@ var self = module.exports = {
 	  socket.on('close', () => log('%stop:red %s:gray %d:yellow', socket.address().address, socket.address().port))
 
 	  socket.on('message', (message) => {
-	    bucket.push(message);
+	        bucket.push(message.toString());
 	  })
 
 	  socket.bind(port, address)
