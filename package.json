@@ -4,6 +4,7 @@
   "description": "Telegraf JSON output handler",
   "main": "index.js",
   "scripts": {
+    "start": "nodejs index.js -c ./config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {

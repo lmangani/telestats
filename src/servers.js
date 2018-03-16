@@ -11,7 +11,7 @@ log('%start:green Initializing Bulk bucket...');
 bucket = bucket_emitter.create(config.queue||{});
 bucket.on('data', function(data) {
   // Bulk ready to emit!
-  if (config.debug) log('%data:cyan BULK Out [%s:blue]', stringify(data) );
+  if (config.debug) log('%data:cyan BULK Out [%s:blue]', JSON.stringify(data) );
   /// DO INSERT
   mysql.query(sql, [data], function(err) {
     if (err) throw err;

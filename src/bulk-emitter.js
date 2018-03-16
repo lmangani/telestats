@@ -4,7 +4,7 @@ function Bucket(opts) {
 	this.bulk = [];
 	this.timeout = opts.timeout || 10000;
 	this.maxSize = opts.maxSize || 1000;
-	this.useInterval = opts.useInterval || opts.use_interval || false;
+	this.useInterval = opts.useInterval || opts.use_interval || true;
 	this.emitter = new events.EventEmitter();
 	this.timer = null;
 
