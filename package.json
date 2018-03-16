@@ -1,0 +1,35 @@
+{
+  "name": "heplify-stats",
+  "version": "1.0.0",
+  "description": "HEPlify v1 stats gateway",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "heplify-stats": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sipcapture/heplify-stats.git"
+  },
+  "keywords": [
+    "hep",
+    "homer",
+    "heplify",
+    "stats"
+  ],
+  "author": "Lorenzo Mangani <lorenzo.mangani@gmail.com> (http://qxip.net/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sipcapture/heplify-stats/issues"
+  },
+  "homepage": "https://github.com/sipcapture/heplify-stats#readme",
+  "dependencies": {
+    "commander": "^2.15.0",
+    "events": "^2.0.0",
+    "mysql2": "^1.5.2",
+    "oh-my-log": "^5.0.1",
+    "safe-stable-stringify": "^1.0.1"
+  }
+}
