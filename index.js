@@ -17,7 +17,7 @@ const select = servers.select;
 
 program
   .version(pkg.version)
-  .option('-p, --port <number>', 'port to listen on', Number, 9060)
+  .option('-p, --port <number>', 'port to listen on', Number, 9999)
   .option('-a, --address <address>', 'network address to listen on', String, '127.0.0.1')
   .option('-c, --configfile <configfile>', 'configuration file', String)
   .parse(process.argv)
