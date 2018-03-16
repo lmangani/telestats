@@ -1,7 +1,7 @@
 {
   "id" : "HEPLIFY-stats-001",
   "socket": "tcp",
-  "port": 9999,
+  "port": 8094,
   "address": "127.0.0.1",
   "mysql": {
     "query_columns": "from_date, to_date, type, total",
