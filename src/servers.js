@@ -2,22 +2,44 @@ const dgram = require('dgram');
 const net = require('net');
 const log = require('./logger');
 const bucket_emitter = require('./bulk-emitter');
-const mysql = require('./db.js');
+const mysql = require('mysql');
 
-var query;
+var query, conn;
 var config;
 
 init = function(config){
+	log('%start:green Initializing MySQL connection...');	
+	conn = mysql.createConnection(config.mysql.dbOpts);
+	conn.connect();
+
 	log('%start:green Initializing Bulk bucket...');
 	bucket = bucket_emitter.create(config.queue||{});
 	bucket.on('data', function(data) {
 	  // Bulk ready to emit!
-	  if (config.debug) log('%data:cyan BULK Out [%s:blue]', JSON.stringify(data) );
+	  if (config.debug) log('%data:cyan BULK Out: %s:blue', JSON.stringify(data) );
 	  /// DO INSERT
-//	  mysql.query(mysql, [data], function(err) {
-//	    if (err) throw err;
-//	    conn.end();
-//	  });
+	  var values = [];
+	  var methods = [];
+	  data.forEach(function(row){
+		if (row.tags.method||row.tags.code){
+			var insert = [ row.timestamp - 1800, row.timestamp, row.name, row.gauge_count || row.counter_count];
+			methods.push(insert);
+
+		} else {
+			var insert = [ row.timestamp - 1800, row.timestamp, row.tags.method || row.tags.code, row.tags.response || row.tags.host, row.tags.row.gauge_count || row.counter_count];
+			values.push(insert);
+		}
+	  });
+	  query  = "INSERT INTO (from_date, to_date, type, total) VALUES ?";
+	  conn.query(mysql, [values], function(err) {
+	    if (err) throw err;
+	    conn.end();
+	  });
+	  query = "INSERT INTO stats_method (from_date, to_date, method, totag, total) VALUES ?"
+	  conn.query(mysql, [methods], function(err) {
+	    if (err) throw err;
+	    conn.end();
+	  });
 
 	}).on('error', function(err) {
 	  log('%error:red %s', err.toString() )
@@ -34,7 +56,6 @@ var self = module.exports = {
 		config = inject_config;
 		if (config.debug) log('CONFIG: %s',config);
 		init(config);
-		query  = "INSERT INTO ("+config.mysql.query_columns+") VALUES ?";
 		self[config.socket](inject_config);
 	},
 

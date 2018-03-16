@@ -29,7 +29,7 @@
   "dependencies": {
     "commander": "^2.15.0",
     "events": "^2.0.0",
-    "mysql2": "^1.5.2",
+    "mysql": "^2.15.0",
     "oh-my-log": "^5.0.1",
     "safe-stable-stringify": "^1.0.1"
   }
