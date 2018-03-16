@@ -2,10 +2,10 @@ const dgram = require('dgram');
 const net = require('net');
 const log = require('./logger');
 const bucket_emitter = require('./bulk-emitter');
-const config = require(./config).getConfig();
-
 const mysql = require('./db.js');
-const query = config.query || "INSERT INTO ("+config.mysql.query_columns+") VALUES ?");";
+
+var query;
+var config = require('./config').getConfig();
 
 log('%start:green Initializing Bulk bucket...');
 bucket = bucket_emitter.create(config.queue||{});
@@ -17,7 +17,6 @@ bucket.on('data', function(data) {
     if (err) throw err;
     conn.end();
   });
-
 }).on('error', function(err) {
   log('%error:red %s', err.toString() )
 });
@@ -28,8 +27,10 @@ var self = module.exports = {
 	  return Object.keys(headers).map(() => '%s:cyan: %s:yellow').join(' ')
 	},
 
-	select: function(config){
-		self[config.socket](config);
+	select: function(inject_config){
+		config = inject_config;
+		query  = "INSERT INTO ("+config.mysql.query_columns+") VALUES ?";
+		self[config.socket](inject_config);
 	},
 
 	tcp: function({ port = undefined, address = '127.0.0.1' } = { address: '127.0.0.1' }) {

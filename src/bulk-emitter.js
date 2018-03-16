@@ -81,4 +81,4 @@ function create(opts) {
 
 module.exports = {
 	create: create
-
+}
