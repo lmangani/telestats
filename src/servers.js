@@ -38,11 +38,11 @@ init = function(config){
 				if (last[metric]) { 
 					var tmp = total - last[metric]; 
 					if(tmp<0) { 
+						last[metric] = total;
 						total = 0; 
-						last[metric] = tmp;
 					} else {
-						total = tmp;
 						last[metric] = total; 
+						total = tmp;
 					}
 				} else { last[metric] = total; }
 			}
