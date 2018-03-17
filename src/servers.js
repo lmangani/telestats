@@ -30,8 +30,16 @@ init = function(config){
 			var metric = row.tags.method || row.tags.code;
 
 			if (config.stats.subtotal){
-				if (last[metric]) { var tmp = total - last[metric]; if(tmp<0) tmp = 0; last[metric] = total; total = tmp; }
-			        else { last[metric] = total; }
+				if (last[metric]) { 
+					var tmp = total - last[metric]; 
+					if(tmp<0) { 
+						tmp = 0; 
+						last[metric] = tmp;
+					} else {
+						last[metric] = total; 
+					}
+					total = tmp; 
+				} else { last[metric] = total; }
 			}
 
 			var insert = [ new Date(row.timestamp - 30000), new Date(row.timestamp), metric, row.tags.response || '', total ]; 
@@ -43,8 +51,16 @@ init = function(config){
 			var metric = row.name;
 
 			if (config.stats.subtotal){
-				if (last[metric]) { var tmp = total - last[metric]; if(tmp<0) tmp =0; last[metric] = total; total = tmp; }
-		        	else { last[metric] = total; }
+				if (last[metric]) { 
+					var tmp = total - last[metric]; 
+					if(tmp<0) { 
+						tmp = 0; 
+						last[metric] = tmp;
+					} else {
+						last[metric] = total; 
+					}
+					total = tmp; 
+				} else { last[metric] = total; }
 			}
 
 			var insert = [ new Date(row.timestamp - 30000), new Date(row.timestamp), metric, total];
