@@ -33,17 +33,18 @@ init = function(config){
 
 			var total = row.fields[config.stats.gauge] || row.fields[config.stats.counter] || 0;
 			var metric = row.tags.method || row.tags.code;
+			var pair = metric + "_" + row.tags.response || '';
 
 			if (config.stats.subtotal){
-				if (last[metric]) { 
-					var tmp = total - last[metric]; 
-					last[metric] += total; 
-					if(tmp<0) { 
+				if (last[pair]) { 
+					var tmp = total - last[pair]; 
+					last[pair] += total; 
+					if(tmp < 0) { 
 					   total = 0; 
 					} else {
 					   total = tmp;
 					}
-				} else { last[metric] = total || 0; }
+				} else { last[pair] = total || 0; }
 			}
 
 			var insert = [ new Date(row.timestamp - 30000), new Date(row.timestamp), metric, row.tags.response || '', total ]; 
