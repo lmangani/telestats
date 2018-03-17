@@ -30,7 +30,7 @@ init = function(config){
 			var metric = row.tags.method || row.tags.code;
 
 			if (config.stats.subtotal){
-				if (last[metric]) { var tmp = total - last[metric]; last[metric] = total; total = tmp; }
+				if (last[metric]) { var tmp = total - last[metric]; if(tmp<0) tmp = 0; last[metric] = total; total = tmp; }
 			        else { last[metric] = total; }
 			}
 
@@ -43,7 +43,7 @@ init = function(config){
 			var metric = row.name;
 
 			if (config.stats.subtotal){
-				if (last[metric]) { var tmp = total - last[metric]; last[metric] = total; total = tmp; }
+				if (last[metric]) { var tmp = total - last[metric]; if(tmp<0) tmp =0; last[metric] = total; total = tmp; }
 		        	else { last[metric] = total; }
 			}
 
