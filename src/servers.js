@@ -38,7 +38,7 @@ init = function(config){
 			if (config.stats.subtotal){
 				if (last[pair]) { 
 					var tmp = total - last[pair]; 
-					last[pair] += total; 
+					last[pair] = total; 
 					if(tmp < 0) { 
 					   total = 0; 
 					} else {
@@ -58,7 +58,7 @@ init = function(config){
 			if (config.stats.subtotal){
 				if (last[metric]) { 
 					var tmp = total - last[metric]; 
-					last[metric] += total; 
+					last[metric] = total; 
 					if(tmp<0) { 
 						total = 0; 
 					} else {
