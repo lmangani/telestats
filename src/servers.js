@@ -24,28 +24,28 @@ init = function(config){
 	    data.forEach(function(row){
 		if (config.debug) log('%data:cyan ROW: %s:blue', JSON.stringify(row) );
 		if (row.name && row.fields && (row.tags.method||row.tags.code) ){
-			var insert = [ row.timestamp - 1800, row.timestamp, row.tags.method || row.tags.code, row.tags.response || row.tags.host, row.fields.gauge_count || row.fields.counter_count];
+			var insert = [ new Date(row.timestamp - 30000), new Date(row.timestamp), row.tags.method || row.tags.code, row.tags.response || row.tags.host, row.fields.gauge_count || row.fields.counter_count || 0 ]; 
 			methods.push(insert);
 
 		} else if (row.name && row.fields){
-			var insert = [ row.timestamp - 1800, row.timestamp, row.name, row.fields.gauge_count || row.fields.counter_count];
+			var insert = [ new Date(row.timestamp - 30000), new Date(row.timestamp), row.name, row.fields.gauge_count || row.fields.counter_count || 0];
 			values.push(insert);
 		}
 	    });
-	    query  = "INSERT INTO stats_data (from_date, to_date, type, total) VALUES ?";
+	    query  = "INSERT IGNORE INTO stats_data (from_date, to_date, type, total) VALUES ?";
 	    if(values.length > 0 && query){
 		  if (config.debug) log('%data:cyan INSERT: %s:blue', query, values );
 		  conn.query(query, [values], function(err) {
 		    if (err) throw err;
-		    conn.end();
+		    //conn.end();
 		  });
 	    }
-	    query = "INSERT INTO stats_method (from_date, to_date, method, totag, total) VALUES ?"
+	    query = "INSERT IGNORE INTO stats_method (from_date, to_date, method, totag, total) VALUES ?"
 	    if(methods.length > 0 && query){
 		  if (config.debug) log('%data:cyan INSERT: %s:blue', query, methods );
 	  	  conn.query(query, [methods], function(err) {
 	  	    if (err) throw err;
-	  	    conn.end();
+	  	    //conn.end();
 	  	  });
 	    }
 	  } catch(err) { log('%data:red ERROR: %s',err); }
