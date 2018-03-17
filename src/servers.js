@@ -22,7 +22,8 @@ init = function(config){
 	bucket.on('data', function(data) {
 	  // Bulk ready to emit!
 	  try {
-	    if (config.debug) log('%data:cyan BULK Out: %s:blue', JSON.stringify(data) );
+	    if (config.debug) log('%data:cyan BULK Out!');
+	    if (config.mysql.debug) log('%data:cyan BULK Set: %s:blue', JSON.stringify(data) );
 	    /// DO INSERT
 	    var values = [];
 	    var methods = [];
