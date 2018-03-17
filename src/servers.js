@@ -34,7 +34,7 @@ init = function(config){
 	    });
 	    query  = "INSERT IGNORE INTO stats_data (from_date, to_date, type, total) VALUES ?";
 	    if(values.length > 0 && query){
-		  if (config.debug) log('%data:cyan INSERT: %s:blue', query, values );
+		  if (config.mysql.debug) log('%data:cyan INSERT: %s:blue', query, values );
 		  conn.query(query, [values], function(err) {
 		    if (err) throw err;
 		    //conn.end();
@@ -42,7 +42,7 @@ init = function(config){
 	    }
 	    query = "INSERT IGNORE INTO stats_method (from_date, to_date, method, totag, total) VALUES ?"
 	    if(methods.length > 0 && query){
-		  if (config.debug) log('%data:cyan INSERT: %s:blue', query, methods );
+		  if (config.mysql.debug) log('%data:cyan INSERT: %s:blue', query, methods );
 	  	  conn.query(query, [methods], function(err) {
 	  	    if (err) throw err;
 	  	    //conn.end();
