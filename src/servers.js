@@ -23,17 +23,17 @@ init = function(config){
 	    var methods = [];
 	    data.forEach(function(row){
 		if (config.mysql.debug) log('%data:cyan ROW: %s:blue', JSON.stringify(row) );
-		if (row.name && row.fields && (row.tags.method||row.tags.code) && config.mysql.stats.method ){
+		if (row.name && row.fields && (row.tags.method||row.tags.code) && config.stats.method ){
 			var insert = [ new Date(row.timestamp - 30000), new Date(row.timestamp), row.tags.method || row.tags.code, row.tags.response || row.tags.host, row.fields[config.stats.gauge] || row.fields[config.stats.counter] || 0 ]; 
 			methods.push(insert);
 
-		} else if (row.name && row.fields && config.mysql.stats.data ){
+		} else if (row.name && row.fields && config.stats.data ){
 			var insert = [ new Date(row.timestamp - 30000), new Date(row.timestamp), row.name, row.fields[config.stats.gauge] || row.fields[config.stats.counter] || 0];
 			values.push(insert);
 		}
 	    });
 	    query  = "INSERT IGNORE INTO stats_data (from_date, to_date, type, total) VALUES ?";
-	    if(values.length > 0 && config.mysql.stats.data){
+	    if(values.length > 0 && config.stats.data){
 		  if (config.mysql.debug) log('%data:cyan INSERT: %s:blue', query, values );
 		  conn.query(query, [values], function(err) {
 		    if (err) throw err;
@@ -41,7 +41,7 @@ init = function(config){
 		  });
 	    }
 	    query = "INSERT IGNORE INTO stats_method (from_date, to_date, method, totag, total) VALUES ?"
-	    if(methods.length > 0 && query && config.mysql.stats.method){
+	    if(methods.length > 0 && query && config.stats.method){
 		  if (config.mysql.debug) log('%data:cyan INSERT: %s:blue', query, methods );
 	  	  conn.query(query, [methods], function(err) {
 	  	    if (err) throw err;
