@@ -7,18 +7,19 @@ Telestats is a single-purpose [Telegraf](https://github.com/influxdata/telegraf)
 ```
 
 ## Notes
-Don't use this!
+Bundles only - Don't use this! 
 
-### Usage
+#### Usage
 ```
 telestats -c ./config.js
 ```
 
-### Options
+#### Options
 see `config.js`
 
+----
 
-### Telegraf Config
+##### Telegraf Config
 ```
 # Telegraf configuration
 
