@@ -22,7 +22,7 @@ init = function(config){
 	    var values = [];
 	    var methods = [];
 	    data.forEach(function(row){
-		if (config.debug) log('%data:cyan ROW: %s:blue', JSON.stringify(row) );
+		if (config.mysql.debug) log('%data:cyan ROW: %s:blue', JSON.stringify(row) );
 		if (row.name && row.fields && (row.tags.method||row.tags.code) ){
 			var insert = [ new Date(row.timestamp - 30000), new Date(row.timestamp), row.tags.method || row.tags.code, row.tags.response || row.tags.host, row.fields.gauge_count || row.fields.counter_count || 0 ]; 
 			methods.push(insert);
