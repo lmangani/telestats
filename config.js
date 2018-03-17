@@ -4,6 +4,7 @@
   "port": 8094,
   "address": "127.0.0.1",
   "mysql": {
+    "debug": false,
     "dbOpts": {
         "host": "localhost",
         "user": "homer_user",
