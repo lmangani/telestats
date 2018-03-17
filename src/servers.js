@@ -16,36 +16,39 @@ init = function(config){
 	bucket = bucket_emitter.create(config.queue||{});
 	bucket.on('data', function(data) {
 	  // Bulk ready to emit!
-	  if (config.debug) log('%data:cyan BULK Out: %s:blue', JSON.stringify(data) );
-	  /// DO INSERT
-	  var values = [];
-	  var methods = [];
-	  data.forEach(function(row){
-		if (row.name && (row.tags.method||row.tags.code) && row.fields){
-			var insert = [ row.timestamp - 1800, row.timestamp, row.name, row.fields.gauge_count || row.fields.counter_count];
+	  try {
+	    if (config.debug) log('%data:cyan BULK Out: %s:blue', JSON.stringify(data) );
+	    /// DO INSERT
+	    var values = [];
+	    var methods = [];
+	    data.forEach(function(row){
+		if (config.debug) log('%data:cyan ROW: %s:blue', JSON.stringify(row) );
+		if (row.name && row.fields && (row.tags.method||row.tags.code) ){
+			var insert = [ row.timestamp - 1800, row.timestamp, row.tags.method || row.tags.code, row.tags.response || row.tags.host, row.fields.gauge_count || row.fields.counter_count];
 			methods.push(insert);
 
-		} else if (row.name && row.tags && row.fields){
-			var insert = [ row.timestamp - 1800, row.timestamp, row.tags.method || row.tags.code, row.tags.response || row.tags.host, row.fields.gauge_count || row.fields.counter_count];
+		} else if (row.name && row.fields){
+			var insert = [ row.timestamp - 1800, row.timestamp, row.name, row.fields.gauge_count || row.fields.counter_count];
 			values.push(insert);
 		}
-	  });
-	  query  = "INSERT INTO stats_data (from_date, to_date, type, total) VALUES ?";
-	  if(values.length > 0 && query){
-		  if (config.debug) log('%data:cyan INSERT: %s:blue', query );
-		  conn.query(mysql, [values], function(err) {
+	    });
+	    query  = "INSERT INTO stats_data (from_date, to_date, type, total) VALUES ?";
+	    if(values.length > 0 && query){
+		  if (config.debug) log('%data:cyan INSERT: %s:blue', query, values );
+		  conn.query(query, [values], function(err) {
 		    if (err) throw err;
 		    conn.end();
 		  });
-	  }
-	  query = "INSERT INTO stats_method (from_date, to_date, method, totag, total) VALUES ?"
-	  if(methods.length > 0 && query){
-		  if (config.debug) log('%data:cyan INSERT: %s:blue', query );
-	  	  conn.query(mysql, [methods], function(err) {
+	    }
+	    query = "INSERT INTO stats_method (from_date, to_date, method, totag, total) VALUES ?"
+	    if(methods.length > 0 && query){
+		  if (config.debug) log('%data:cyan INSERT: %s:blue', query, methods );
+	  	  conn.query(query, [methods], function(err) {
 	  	    if (err) throw err;
 	  	    conn.end();
 	  	  });
-	  }
+	    }
+	  } catch(err) { log('%data:red ERROR: %s',err); }
 	}).on('error', function(err) {
 	  log('%error:red %s', err.toString() )
 	});
