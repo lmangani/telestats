@@ -8,6 +8,10 @@ var last = [];
 var query, conn;
 var config;
 
+var check = function(set){
+
+}
+
 init = function(config){
 	log('%start:green Initializing MySQL connection...');	
 	conn = mysql.createConnection(config.mysql.dbOpts);
@@ -33,12 +37,12 @@ init = function(config){
 				if (last[metric]) { 
 					var tmp = total - last[metric]; 
 					if(tmp<0) { 
-						tmp = 0; 
+						total = 0; 
 						last[metric] = tmp;
 					} else {
+						total = tmp;
 						last[metric] = total; 
 					}
-					total = tmp; 
 				} else { last[metric] = total; }
 			}
 
@@ -54,12 +58,12 @@ init = function(config){
 				if (last[metric]) { 
 					var tmp = total - last[metric]; 
 					if(tmp<0) { 
-						tmp = 0; 
+						total = 0; 
 						last[metric] = tmp;
 					} else {
+						total = tmp;
 						last[metric] = total; 
 					}
-					total = tmp; 
 				} else { last[metric] = total; }
 			}
 
