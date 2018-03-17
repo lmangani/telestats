@@ -4,6 +4,7 @@ const log = require('./logger');
 const bucket_emitter = require('./bulk-emitter');
 const mysql = require('mysql');
 
+var last = [];
 var query, conn;
 var config;
 
@@ -24,11 +25,29 @@ init = function(config){
 	    data.forEach(function(row){
 		if (config.mysql.debug) log('%data:cyan ROW: %s:blue', JSON.stringify(row) );
 		if (row.name && row.fields && (row.tags.method||row.tags.code) && config.stats.method ){
-			var insert = [ new Date(row.timestamp - 30000), new Date(row.timestamp), row.tags.method || row.tags.code, row.tags.response || row.tags.host, row.fields[config.stats.gauge] || row.fields[config.stats.counter] || 0 ]; 
+
+			var total = row.fields[config.stats.gauge] || row.fields[config.stats.counter] || 0;
+			var metric = row.tags.method || row.tags.code;
+
+			if (config.stats.subtotal){
+				if (last[metric]) { var tmp = total - last[metric]; last[metric] = total; total = tmp; }
+			        else { last[metric] = total; }
+			}
+
+			var insert = [ new Date(row.timestamp - 30000), new Date(row.timestamp), metric, row.tags.response || '', total ]; 
 			methods.push(insert);
 
 		} else if (row.name && row.fields && config.stats.data ){
-			var insert = [ new Date(row.timestamp - 30000), new Date(row.timestamp), row.name, row.fields[config.stats.gauge] || row.fields[config.stats.counter] || 0];
+
+			var total = row.fields[config.stats.gauge] || row.fields[config.stats.counter] || 0;
+			var metric = row.name;
+
+			if (config.stats.subtotal){
+				if (last[metric]) { var tmp = total - last[metric]; last[metric] = total; total = tmp; }
+		        	else { last[metric] = total; }
+			}
+
+			var insert = [ new Date(row.timestamp - 30000), new Date(row.timestamp), metric, total];
 			values.push(insert);
 		}
 	    });
