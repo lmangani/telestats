@@ -37,14 +37,13 @@ init = function(config){
 			if (config.stats.subtotal){
 				if (last[metric]) { 
 					var tmp = total - last[metric]; 
+					last[metric] += total; 
 					if(tmp<0) { 
-						last[metric] = total;
-						total = 0; 
+					   total = 0; 
 					} else {
-						last[metric] = total; 
-						total = tmp;
+					   total = tmp;
 					}
-				} else { last[metric] = total; }
+				} else { last[metric] = total || 0; }
 			}
 
 			var insert = [ new Date(row.timestamp - 30000), new Date(row.timestamp), metric, row.tags.response || '', total ]; 
@@ -58,14 +57,14 @@ init = function(config){
 			if (config.stats.subtotal){
 				if (last[metric]) { 
 					var tmp = total - last[metric]; 
+					last[metric] += total; 
 					if(tmp<0) { 
 						total = 0; 
-						last[metric] = tmp;
 					} else {
 						total = tmp;
-						last[metric] = total; 
 					}
-				} else { last[metric] = total; }
+
+				} else { last[metric] = total || 0; }
 			}
 
 			var insert = [ new Date(row.timestamp - 30000), new Date(row.timestamp), metric, total];
