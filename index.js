@@ -6,7 +6,6 @@
 
 'use strict';
 
-
 const program = require('commander');
 const setConfig = require('./src/config').setConfig;
 const getConfig = require('./src/config').getConfig;

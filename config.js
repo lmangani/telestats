@@ -13,5 +13,11 @@
     },
     "maxRows": 1000
   },
+  "stats" : {
+	"data" : false,
+	"method" : true,
+	"gauge" : "gauge_count", // _count, _max, _mean, _min
+	"counter" : "counter_count" // _count, _max, _mean, _min
+  },
   "debug": true
 }
