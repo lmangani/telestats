@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /*
  * HEPLIFY-stats
  * (c) 2018 QXIP BV

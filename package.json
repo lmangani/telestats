@@ -1,6 +1,6 @@
 {
   "name": "telestats",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Telegraf JSON output handler",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "heplify-stats": "./index.js"
+    "telestats": "./index.js"
   },
   "repository": {
     "type": "git",
