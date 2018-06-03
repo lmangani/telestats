@@ -1,10 +1,10 @@
 {
   "name": "telestats",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Telegraf JSON output handler",
   "main": "index.js",
   "scripts": {
-    "start": "nodejs index.js -c ./config.js",
+    "start": "nodejs index.js -c /tmp/config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
@@ -30,6 +30,7 @@
     "commander": "^2.15.0",
     "events": "^2.0.0",
     "mysql": "^2.15.0",
+    "npm": "^5.7.1",
     "oh-my-log": "^5.0.1",
     "safe-stable-stringify": "^1.0.1"
   }
