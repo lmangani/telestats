@@ -6,7 +6,7 @@
   "mysql": {
     "debug": false,
     "dbOpts": {
-        "host": "dbmysql",
+        "host": "db",
         "user": "homer_user",
         "password": "homer_password",
         "database": "homer_statistic"
