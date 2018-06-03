@@ -35,7 +35,7 @@ init = function(config){
 			var metric = row.tags.method || row.tags.code;
 			var pair = metric + "_" + row.tags.response || '';
 
-			if (config.stats.subtotal){
+			if (config.stats.subtotal && row.fields[config.stats.counter] ){
 				if (last[pair]) { 
 					var tmp = total - last[pair]; 
 					last[pair] = total; 
@@ -55,7 +55,7 @@ init = function(config){
 			var total = row.fields[config.stats.gauge] || row.fields[config.stats.counter] || 0;
 			var metric = row.name;
 
-			if (config.stats.subtotal){
+			if (config.stats.subtotal && row.fields[config.stats.counter]){
 				if (last[metric]) { 
 					var tmp = total - last[metric]; 
 					last[metric] = total; 
