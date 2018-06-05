@@ -1,5 +1,5 @@
 FROM node:carbon
-# Vesion 1.0.6
+# Vesion 1.0.7
 
 # Create app directory
 WORKDIR /usr/src/app

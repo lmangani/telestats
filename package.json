@@ -1,6 +1,6 @@
 {
   "name": "telestats",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Telegraf JSON output handler",
   "main": "index.js",
   "scripts": {
