@@ -37,13 +37,13 @@ init = function(config){
 
 			if (config.stats.subtotal && row.fields[config.stats.counter] ){
 				if (last[pair]) { 
-					var tmp = total - last[pair]; 
-					last[pair] = total; 
+					var tmp = total - last[pair];  
 					if(tmp < 0) { 
 					   total = 0; 
 					} else {
 					   total = tmp;
 					}
+					last[pair] = total;
 				} else { last[pair] = total || 0; }
 			}
 
@@ -58,13 +58,13 @@ init = function(config){
 			if (config.stats.subtotal && row.fields[config.stats.counter]){
 				if (last[metric]) { 
 					var tmp = total - last[metric]; 
-					last[metric] = total; 
+					
 					if(tmp<0) { 
 						total = 0; 
 					} else {
 						total = tmp;
 					}
-
+					last[metric] = total; 
 				} else { last[metric] = total || 0; }
 			}
 
